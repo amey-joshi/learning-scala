@@ -10,7 +10,6 @@ object GeneralAccumulator {
     * @param a the first element
     * @param b the last element
     * @param e an identity suitable for the binary operator 'g'.
-    *
     * @return the result of accumulation.
     */
   def eval(f: Int => Int, g: (Int, Int) => Int, a: Int, b: Int, e: Int): Int = {
