@@ -35,7 +35,7 @@ object ListTest extends App {
     var M = L
     while (!(M isEmpty)) {
       print(M.head + " ")
-      M = M tail
+      M = M.tail
     }
     println("nil")
   }
