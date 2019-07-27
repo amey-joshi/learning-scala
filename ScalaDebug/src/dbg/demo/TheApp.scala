@@ -5,8 +5,12 @@ import org.slf4j.{Logger, LoggerFactory}
 object TheApp {
   def logger = LoggerFactory.getLogger(TheApp.getClass)
   
+  /**
+   * A simple function with no useful purpose but to have code with a slight
+   * complexity.
+   */
   def f(n: Int, m: Int): Int = {
-    logger.info(s"n = $n, m = $m")
+    logger.info(s"Invoked f($n, $m).")
     
     if (n > 0 && m > 0)
       3*m + 2*n
