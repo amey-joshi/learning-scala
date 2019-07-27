@@ -7,7 +7,7 @@ import scala.collection.immutable.List
 object IsortTest extends App {
   def insert(x: Int, xs: List[Int]): List[Int] = xs match {
     case List() => List(x)
-    case y :: ys => if (x >= y) x :: y :: ys else y :: insert(x, ys)
+    case y :: ys => if (x >= y) x :: xs else y :: insert(x, ys)
   }
 
   def isort(L: List[Int]): List[Int] = L match {
