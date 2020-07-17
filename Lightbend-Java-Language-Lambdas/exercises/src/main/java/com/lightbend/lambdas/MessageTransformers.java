@@ -6,11 +6,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 class MessageTransformers {
-    static MessageTransformer<String> toString = Message::toString;
+    static Function<Message, String> toString = Message::toString;
 
-    static MessageTransformer<Instant> toTimestamp = Message::getTimestamp;
+    static Function<Message, Instant> toTimestamp = Message::getTimestamp;
 
-    static MessageTransformer<Message> toUpperCase = (Message message) -> 
+    static Function<Message, Message> toUpperCase = (Message message) -> 
     	{
             return new Message(	message.getId(), 
             					message.getTimestamp(), 
@@ -18,19 +18,10 @@ class MessageTransformers {
             				  );
         };
 
-    static <T> List<T> mapMessages(List<Message> messages, MessageTransformer<T> transformer) {
+    static <T> List<T> mapMessages(List<Message> messages, Function<Message, T> transformer) {
         return messages
                 .stream()
-                .map(transformFunction(transformer))
+                .map(transformer)
                 .collect(Collectors.toList());
-    }
-
-    private static <T> Function<Message, T> transformFunction(MessageTransformer<T> transformer) {
-        return new Function<Message, T>() {
-            @Override
-            public T apply(Message message) {
-                return transformer.apply(message);
-            }
-        };
     }
 }
