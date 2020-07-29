@@ -1,0 +1,7 @@
+curl -X GET localhost:8080/greet
+curl -X POST localhost:8080/book/init
+curl -X GET localhost:8080/book/all
+curl -X GET localhost:8080/author/all
+curl -X GET localhost:8080/book/authorlastname?authorlastname=Tao
+curl -X GET http://localhost:8080/book/title?title=Partial%20Differential%20Equations
+
