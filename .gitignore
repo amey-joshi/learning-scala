@@ -2,5 +2,8 @@
 *.swp
 **/.classpath
 **/.project
+**/.idea
+**/*.iml
+**/.mvn
 **/target/**
 **/.settings/**
