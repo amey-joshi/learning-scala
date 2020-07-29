@@ -12,6 +12,7 @@ import org.apde.jpa.bookstore.model.BookRepository;
 import org.apde.jpa.bookstore.service.BookShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,7 +37,7 @@ public class BookStoreController {
 		return opt.get();
 	}
 
-	@GetMapping("/book/init")
+	@PostMapping("/book/init")
 	public String initializeRepo() {
 		addAuthors();
 		addBooks();
