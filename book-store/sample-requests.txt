@@ -1,9 +1,12 @@
 curl -X GET  localhost:8080/apde/greet
 curl -X POST localhost:8080/apde/book/init
-curl -X GET  localhost:8080/apde/book/all
-curl -X GET  localhost:8080/apde/author/all
+curl -X GET  localhost:8080/apde/books
+curl -X GET  localhost:8080/apde/authors
 curl -X GET  localhost:8080/apde/book/author/Tao
 curl -X GET  localhost:8080/apde/book/title/Partial%20Differential%20Equations
 curl -X GET  localhost:8080/apde/book/id/10
 curl -X GET  localhost:8080/v2/api-docs
-
+curl -X GET  localhost:8080/actuator/info
+curl -X GET  localhost:8080/actuator/health
+curl -X GET  localhost:8080/actuator/metrics
+curl -X GET  localhost:8080/actuator/metrics/jdbc.connections.active
