@@ -20,88 +20,88 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/apde")
 public class BookStoreController {
-	@Autowired
-	BookRepository bookRepository;
-	@Autowired
-	AuthorRepository authorRepository;
-	@Autowired
-	BookShopService bookShopService;
+    @Autowired
+    BookRepository bookRepository;
+    @Autowired
+    AuthorRepository authorRepository;
+    @Autowired
+    BookShopService bookShopService;
 
-	@GetMapping("/book/title/{title}")
-	public List<Book> getByTitle(@PathVariable(name = "title") String title) {
-		return bookRepository.findByTitle(title);
-	}
+    @GetMapping("/book/title/{title}")
+    public List<Book> getByTitle(@PathVariable(name = "title") String title) {
+        return bookRepository.findByTitle(title);
+    }
 
-	@GetMapping("/book/id/{id}")
-	public Book getById(@PathVariable(name = "id") Long id) {
-		Optional<Book> opt = bookRepository.findById(id);
+    @GetMapping("/book/id/{id}")
+    public Book getById(@PathVariable(name = "id") Long id) {
+        Optional<Book> opt = bookRepository.findById(id);
 
-		return opt.get();
-	}
+        return opt.get();
+    }
 
-	@PostMapping("/init")
-	public String initializeRepo() {
-		addAuthors();
-		addBooks();
+    @PostMapping("/init")
+    public String initializeRepo() {
+        addAuthors();
+        addBooks();
 
-		return String.format("Added %d authors and %s books.", authorRepository.count(), bookRepository.count());
-	}
+        return String.format("Added %d authors and %s books.", authorRepository.count(), bookRepository.count());
+    }
 
-	private List<Author> getAuthorList(long id) {
-		List<Author> authors = new ArrayList<>();
+    @GetMapping("/authors")
+    public List<Author> allAuthors() {
+        LinkedList<Author> authors = new LinkedList<>();
 
-		Optional<Author> oa = authorRepository.findById(id);
-		if (oa.isPresent()) {
-			authors.add(oa.get());
-		}
+        authorRepository.findAll().forEach(a -> authors.add(a));
 
-		return authors;
-	}
+        return authors;
+    }
 
-	private void addAuthors() {
-		authorRepository.save(new Author("Walter", "Rudin"));
-		authorRepository.save(new Author("Fritz", "John"));
-		authorRepository.save(new Author("Lawrence", "Evans"));
-		authorRepository.save(new Author("Terence", "Tao"));
-		authorRepository.save(new Author("Michael", "Spivak"));
-	}
+    @GetMapping("/books")
+    public List<Book> showAll() {
+        LinkedList<Book> books = new LinkedList<>();
 
-	private void addBooks() {
-		bookRepository.save(new Book("Principles of Mathematical Analysis", getAuthorList(1)));
-		bookRepository.save(new Book("Real and Complex Analysis", getAuthorList(1)));
-		bookRepository.save(new Book("Functional Analysis", getAuthorList(1)));
-		bookRepository.save(new Book("Partial Differential Equations", getAuthorList(2)));
-		bookRepository.save(new Book("Partial Differential Equations", getAuthorList(3)));
-		bookRepository.save(new Book("Analysis I", getAuthorList(4)));
-		bookRepository.save(new Book("Analysis II", getAuthorList(4)));
-		bookRepository.save(new Book("Analysis III", getAuthorList(4)));
-	}
+        bookRepository.findAll().forEach(b -> books.add(b));
 
-	@GetMapping("/authors")
-	public List<Author> allAuthors() {
-		LinkedList<Author> authors = new LinkedList<>();
+        return books;
+    }
 
-		authorRepository.findAll().forEach(a -> authors.add(a));
+    @GetMapping("/greet")
+    public String greet() {
+        return "Welcome to the book shop";
+    }
 
-		return authors;
-	}
+    @GetMapping("/author/{lastname}")
+    public List<Book> byAuthor(@PathVariable(name = "lastname") String lastname) {
+        return bookShopService.getByAuthorLastName(lastname);
+    }
 
-	@GetMapping("/books")
-	public List<Book> showAll() {
-		LinkedList<Book> books = new LinkedList<>();
+    private List<Author> getAuthorList(long id) {
+        List<Author> authors = new ArrayList<>();
 
-		bookRepository.findAll().forEach(b -> books.add(b));
+        Optional<Author> oa = authorRepository.findById(id);
+        if (oa.isPresent()) {
+            authors.add(oa.get());
+        }
 
-		return books;
-	}
+        return authors;
+    }
 
-	@GetMapping("/greet")
-	public String greet() {
-		return "Welcome to the book shop";
-	}
+    private void addAuthors() {
+        authorRepository.save(new Author("Walter", "Rudin"));
+        authorRepository.save(new Author("Fritz", "John"));
+        authorRepository.save(new Author("Lawrence", "Evans"));
+        authorRepository.save(new Author("Terence", "Tao"));
+        authorRepository.save(new Author("Michael", "Spivak"));
+    }
 
-	@GetMapping("/author/{lastname}")
-	public List<Book> byAuthor(@PathVariable(name = "lastname") String lastname) {
-		return bookShopService.getByAuthorLastName(lastname);
-	}
+    private void addBooks() {
+        bookRepository.save(new Book("Principles of Mathematical Analysis", getAuthorList(1)));
+        bookRepository.save(new Book("Real and Complex Analysis", getAuthorList(1)));
+        bookRepository.save(new Book("Functional Analysis", getAuthorList(1)));
+        bookRepository.save(new Book("Partial Differential Equations", getAuthorList(2)));
+        bookRepository.save(new Book("Partial Differential Equations", getAuthorList(3)));
+        bookRepository.save(new Book("Analysis I", getAuthorList(4)));
+        bookRepository.save(new Book("Analysis II", getAuthorList(4)));
+        bookRepository.save(new Book("Analysis III", getAuthorList(4)));
+    }
 }
