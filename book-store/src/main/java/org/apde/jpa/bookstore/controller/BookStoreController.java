@@ -12,11 +12,13 @@ import org.apde.jpa.bookstore.model.BookRepository;
 import org.apde.jpa.bookstore.service.BookShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/apde")
 public class BookStoreController {
 	@Autowired
 	BookRepository bookRepository;
@@ -25,19 +27,19 @@ public class BookStoreController {
 	@Autowired
 	BookShopService bookShopService;
 
-	@GetMapping("/book/title")
-	public List<Book> getByTitle(@RequestParam(name = "title") String title) {
+	@GetMapping("/book/title/{title}")
+	public List<Book> getByTitle(@PathVariable(name = "title") String title) {
 		return bookRepository.findByTitle(title);
 	}
 
-	@GetMapping("/book/id")
-	public Book getById(@RequestParam(name = "id") Long id) {
+	@GetMapping("/book/id/{id}")
+	public Book getById(@PathVariable(name = "id") Long id) {
 		Optional<Book> opt = bookRepository.findById(id);
 
 		return opt.get();
 	}
 
-	@PostMapping("/book/init")
+	@PostMapping("/init")
 	public String initializeRepo() {
 		addAuthors();
 		addBooks();
@@ -75,7 +77,7 @@ public class BookStoreController {
 		bookRepository.save(new Book("Analysis III", getAuthorList(4)));
 	}
 
-	@GetMapping("/author/all")
+	@GetMapping("/authors")
 	public List<Author> allAuthors() {
 		LinkedList<Author> authors = new LinkedList<>();
 
@@ -84,7 +86,7 @@ public class BookStoreController {
 		return authors;
 	}
 
-	@GetMapping("/book/all")
+	@GetMapping("/books")
 	public List<Book> showAll() {
 		LinkedList<Book> books = new LinkedList<>();
 
@@ -98,8 +100,8 @@ public class BookStoreController {
 		return "Welcome to the book shop";
 	}
 
-	@GetMapping("/book/authorlastname")
-	public List<Book> byAuthor(@RequestParam(name = "authorlastname") String lastname) {
+	@GetMapping("/author/{lastname}")
+	public List<Book> byAuthor(@PathVariable(name = "lastname") String lastname) {
 		return bookShopService.getByAuthorLastName(lastname);
 	}
 }
